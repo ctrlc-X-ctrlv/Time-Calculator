@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='Time_Calculator.png' rel='icon' type='image/x-icon'/>
+    <title>Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding-top: 260px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .section {
+            width: 45%;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .input-group div {
+            width: 30%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold; /* Menebalkan teks label */
+            margin-bottom: 0px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .section .button-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .section .button-container button {
+            margin-left: 0px;
+            margin-bottom: 10px;
+        }
+        #jamPengurangan1 {
+            margin-bottom: 0;
+        }
+        #menitPengurangan1 {
+            margin-bottom: 0;
+        }
+        #detikPengurangan1 {
+            margin-bottom: 0;
+        }
+        #jamPembagian {
+            margin-bottom: 0;
+        }
+        #menitPembagian {
+            margin-bottom: 0;
+        }
+        #detikPembagian {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <div class="input-group">
+            <div>
+                <input type="number" id="jam" placeholder="Hr">
+            </div>
+            <div>
+                <input type="number" id="menit" placeholder="+ Min">
+            </div>
+            <div>
+                <input type="number" id="detik" placeholder="+ Sec">
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="hitungWaktu()">=</button>
+        </div>
+
+        <div class="result">
+            <p id="totalJam"></p>
+            <p id="totalMenit"></p>
+            <p id="totalDetik"></p>
+        </div>
+
+        <!-- Fitur Pengurangan & Penjumlahan Waktu -->
+        <div class="section">
+            <div class="input-group">
+                <div>
+                    <input type="number" id="jamPengurangan1" placeholder="Hr">
+                </div>
+                <div>
+                    <input type="number" id="menitPengurangan1" placeholder="Min">
+                </div>
+                <div>
+                    <input type="number" id="detikPengurangan1" placeholder="Sec">
+                </div>
+            </div>
+
+            <label>- / +</label>
+
+            <div class="input-group">
+                <div>
+                    <input type="number" id="jamPengurangan2" placeholder="Hr">
+                </div>
+                <div>
+                    <input type="number" id="menitPengurangan2" placeholder="Min">
+                </div>
+                <div>
+                    <input type="number" id="detikPengurangan2" placeholder="Sec">
+                </div>
+            </div>
+
+            <div class="button-container">
+                <!-- Tombol Pengurangan -->
+                <button onclick="hitungPengurangan('subtract')">-</button>
+                <!-- Tombol Penjumlahan -->
+                <button onclick="hitungPengurangan('add')">+</button>
+            </div>
+
+            <div class="result">
+                <p id="totalJamPengurangan"></p>
+                <p id="totalMenitPengurangan"></p>
+                <p id="totalDetikPengurangan"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="input-group">
+            <div>
+                <input type="number" id="jamPembagian" placeholder="Hr">
+            </div> 
+            <div>
+                <input type="number" id="menitPembagian" placeholder="Min">
+            </div>
+            <div>
+                <input type="number" id="detikPembagian" placeholder="Sec">
+            </div>
+        </div>
+
+        <label for="divider">:</label>
+        <input type="number" id="divider">
+
+        <button onclick="hitungPembagian()">=</button>
+
+        <div class="result">
+            <p id="resultPembagianDetik"></p>
+            <p id="resultPembagianMenitDetik"></p>
+        </div>
+    </div>
+
+    <script>
+        function hitungWaktu() {
+            // Mengambil input dari pengguna untuk waktu
+            let jam = parseInt(document.getElementById("jam").value) || 0;
+            let menit = parseInt(document.getElementById("menit").value) || 0;
+            let detik = parseInt(document.getElementById("detik").value) || 0;
+
+            // Menghitung total menit dan detik
+            let totalMenit = (jam * 60) + menit; // Mengonversi jam menjadi menit dan menambahkan menit
+            let totalDetik = (totalMenit * 60) + detik; // Mengonversi menit menjadi detik dan menambahkan detik
+
+            // Menampilkan hasil dengan angka yang dibold
+            document.getElementById("totalJam").innerHTML = "<strong>" + (totalDetik / 3600).toFixed(2) + "</strong> hr";
+            document.getElementById("totalMenit").innerHTML = "<strong>" + totalMenit + "</strong> min";
+            document.getElementById("totalDetik").innerHTML = "<strong>" + totalDetik + "</strong> sec";
+        }
+
+        function hitungPembagian() {
+            // Mengambil input dari pengguna untuk pembagian waktu
+            let jamPembagian = parseInt(document.getElementById("jamPembagian").value) || 0;
+            let menitPembagian = parseInt(document.getElementById("menitPembagian").value) || 0;
+            let detikPembagian = parseInt(document.getElementById("detikPembagian").value) || 0;
+            let pembagi = parseInt(document.getElementById("divider").value) || 1; // Default pembagi = 1 jika kosong
+
+            // Menghitung total detik untuk waktu yang dimasukkan
+            let totalDetikPembagian = (jamPembagian * 3600) + (menitPembagian * 60) + detikPembagian;
+
+            // Pembagian
+            let hasilPembagianDetik = totalDetikPembagian / pembagi;
+
+            // Mengonversi hasil pembagian dalam detik ke menit dan detik
+            let menitHasil = Math.floor(hasilPembagianDetik / 60);
+            let detikHasil = Math.floor(hasilPembagianDetik % 60);
+
+            // Menampilkan hasil pembagian dengan angka yang dibold
+            document.getElementById("resultPembagianDetik").innerHTML = "<strong>" + hasilPembagianDetik.toFixed(2) + "</strong> sec";
+            document.getElementById("resultPembagianMenitDetik").innerHTML = "<strong>" + menitHasil + "</strong> min <strong>" + detikHasil + "</strong> sec";
+        }
+
+        function hitungPengurangan(operasi) {
+            // Mengambil input dari pengguna untuk pengurangan waktu
+            let jam1 = parseInt(document.getElementById("jamPengurangan1").value) || 0;
+            let menit1 = parseInt(document.getElementById("menitPengurangan1").value) || 0;
+            let detik1 = parseInt(document.getElementById("detikPengurangan1").value) || 0;
+
+            let jam2 = parseInt(document.getElementById("jamPengurangan2").value) || 0;
+            let menit2 = parseInt(document.getElementById("menitPengurangan2").value) || 0;
+            let detik2 = parseInt(document.getElementById("detikPengurangan2").value) || 0;
+
+            // Menghitung total detik untuk waktu yang dimasukkan
+            let totalDetik1 = (jam1 * 3600) + (menit1 * 60) + detik1;
+            let totalDetik2 = (jam2 * 3600) + (menit2 * 60) + detik2;
+
+            let hasilDetik;
+
+            // Tentukan apakah melakukan penjumlahan atau pengurangan
+            if (operasi === 'subtract') {
+                hasilDetik = totalDetik1 - totalDetik2;  // Pengurangan
+            } else if (operasi === 'add') {
+                hasilDetik = totalDetik1 + totalDetik2;  // Penjumlahan
+            }
+
+            // Mengonversi hasil pengurangan/penjumlahan ke jam, menit, dan detik
+            let jamHasil = Math.floor(hasilDetik / 3600);
+            let menitHasil = Math.floor((hasilDetik % 3600) / 60);
+            let detikHasil = Math.floor(hasilDetik % 60);
+
+            // Menampilkan hasil
+            document.getElementById("totalJamPengurangan").innerHTML = "<strong>" + jamHasil + "</strong> hr";
+            document.getElementById("totalMenitPengurangan").innerHTML = "<strong>" + menitHasil + "</strong> min";
+            document.getElementById("totalDetikPengurangan").innerHTML = "<strong>" + detikHasil + "</strong> sec";
+        }
+    </script>
+
+</body>
+</html>
